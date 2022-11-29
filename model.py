@@ -1,0 +1,77 @@
+import torch
+from torch import nn
+from torch import tensor
+import numpy as np
+from torch import optim
+import torch.nn.functional as F
+
+batch_size = 5     # 批量大小
+seq_len = 3        # 序列长度
+input_size = 2     # 特征维度
+hidden_size = 1    #隐藏层神经元个数 or 输出yi特征维度
+num_layers = 2 #隐藏层层数
+#RSN
+# nonlinearity：激活函数，默认为 tanh
+# bias：是否使用偏置，默认为True
+# input 的维度为 (seqLen, batch_size, input_size)，
+#初始化隐藏变量h0的维度是 (num_layers, batch_size, hidden_size)；
+#out 的维度为 (seqlen, batch, hidden_size)
+#
+class model_srn(nn.Module):
+    def __init__(self):
+        super(model_srn, self).__init__()
+        self.mem = [0,0,0]
+        self.cell = torch.nn.RNN(input_size, hidden_size, num_layers=num_layers, bias=True)
+        self.linear = nn.Linear(in_features=3, out_features=1)
+    def forward(self,x,h0):
+        out, hidden = self.cell(x, h0)
+        out = torch.reshape(out, (3, -1))
+        out = out.T
+        out = self.linear(out)
+        out = torch.tanh(out)
+        return out,hidden
+
+class model_dip(nn.Module):
+    def __init__(self):
+        super(model_dip, self).__init__()
+        self.mem = [0,0,0]
+        self.linear1 = nn.Linear(in_features=1, out_features=3, bias=False)
+        self.linear2 = nn.Linear(in_features=3, out_features=1, bias=True)
+    def forward(self,x):
+        out = self.linear1(x)
+        out[1] = out[1] + self.mem[1]
+        out[2] = out[2] - self.mem[2]
+        self.mem[0] = out[0]
+        self.mem[1] = self.mem[1] + out[1]
+        self.mem[2] = out[2]
+        out = self.linear2(out)
+        out = torch.tanh(out)
+        return out
+class model_cc(nn.Module):
+    def __init__(self):
+        super(model_cc, self).__init__()
+        self.rsn = model_srn()
+        self.dip = model_dip()
+    def forward(self,x,h0):
+        out,hidden = self.rsn.forward(x,h0)
+        return self.dip.forward(out),hidden
+model = model_cc()
+#优化器
+print(model)
+optimizer = optim.Adam(model.parameters(),lr=1e-3)
+
+for name, param in model.named_parameters(): #查看可优化的参数有哪些
+  if param.requires_grad:
+    print(name)
+#损失函数
+loss_fn = nn.MSELoss()
+#数据集，save
+inputs = torch.randn(seq_len, batch_size, input_size)
+h0 = torch.zeros(num_layers, batch_size, hidden_size)
+out,hidden = model.forward(inputs,h0)
+#out 的维度为 (batch)
+print("Output size:", out.shape)
+print("Output:", out)
+print("Hidden size:",hidden.shape)
+print("Hidden:",hidden)
+#训练流程
