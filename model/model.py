@@ -69,7 +69,7 @@ class i_cell(nn.Module):
         self.sum = 0
         self.len = 0
     def forward(self, inputs):
-        if(self.len>10000):
+        if(self.len>10):
             self.sum = 0
             self.len = 0
         else:
