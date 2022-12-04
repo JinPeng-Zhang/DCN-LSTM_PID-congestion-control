@@ -31,10 +31,10 @@ class model_srn(nn.Module):
         out = torch.tanh(out)
         return out,hidden
 class model_dip(nn.Module):
-    def __init__(self):
+    def __init__(self,lens):
         super(model_dip, self).__init__()
         self.p = p_cell()
-        self.i = i_cell()
+        self.i = i_cell(lens)
         self.d = d_cell()
         self.linear = nn.Linear(in_features=3, out_features=1)
     def forward(self,x):
@@ -47,39 +47,39 @@ class model_dip(nn.Module):
         out = self .linear(out)
         return out
 class model_cc(nn.Module):
-    def __init__(self):
+    def __init__(self,lens):
         super(model_cc, self).__init__()
         self.rsn = model_srn()
-        self.dip = model_dip()
+        self.dip = model_dip(lens)
     def forward(self,x,h0):
         out,hidden = self.rsn.forward(x,h0)
         return self.dip.forward(out),hidden
-class d_cell(nn.Module):
+class p_cell(nn.Module):
     def __init__(self):
-        super(d_cell,self).__init__()
+        super(p_cell,self).__init__()
         self.weight = nn.Parameter(torch.randn(1,1))
         self.bias = nn.Parameter(torch.randn(1,1))
     def forward(self,inputs):
         return self.weight*inputs+self.bias
 class i_cell(nn.Module):
-    def __init__(self):
+    def __init__(self,lens):
         super(i_cell,self).__init__()
         self.weight = nn.Parameter(torch.randn(1,1))
         self.bias = nn.Parameter(torch.randn(1,1))
-        self.sum = 0
+        self.sum = torch.zeros(hidden_size,batch_size)
         self.len = 0
+        self.lens = lens
     def forward(self, inputs):
-        if(self.len>10):
-            self.sum = 0
+        self.len = self.len+1
+        if self.len>self.lens:
             self.len = 0
-        else:
-            self.len = self.len+1
-            self.sum = (self.sum+inputs)/self.len
-        print("sum:"+str(self.sum))
-        return self.weight * inputs + self.bias
-class p_cell(nn.Module):
+            self.sum = torch.zeros(hidden_size, batch_size)
+        out = self.weight * (inputs + self.sum) + self.bias
+        self.sum = self.sum+inputs
+        return out,not self.len
+class d_cell(nn.Module):
     def __init__(self):
-        super(p_cell,self).__init__()
+        super(d_cell,self).__init__()
         self.weight = nn.Parameter(torch.randn(1,1))
         self.bias = nn.Parameter(torch.randn(1,1))
         self.old = 0
@@ -87,26 +87,26 @@ class p_cell(nn.Module):
         out = self.weight * (inputs-self.old) + self.bias
         self.old = inputs
         return out
-model = model_cc()
-#优化器
-print(model)
-optimizer = optim.Adam(model.parameters(),lr=1e-3)
-
-for name, param in model.named_parameters(): #查看可优化的参数有哪些
-  if param.requires_grad:
-    print(name)
-
-#损失函数
-loss_fn = nn.MSELoss()
-#数据集，save
-inputs1 = torch.randn(seq_len, batch_size, input_size)
-inputs2 = torch.randn(seq_len, batch_size, input_size)
-h0 = torch.zeros(num_layers, batch_size, hidden_size)
-out,hidden = model.forward(inputs1,h0)
-out,hidden = model.forward(inputs2,h0)
-#out 的维度为 (batch)
-print("Output size:", out.shape)
-print("Output:", out)
-print("Hidden size:",hidden.shape)
-print("Hidden:",hidden)
+# model = model_cc()
+# #优化器
+# print(model)
+# optimizer = optim.Adam(model.parameters(),lr=1e-3)
+#
+# for name, param in model.named_parameters(): #查看可优化的参数有哪些
+#   if param.requires_grad:
+#     print(name)
+#
+# #损失函数
+# loss_fn = nn.MSELoss()
+# #数据集，save
+# inputs1 = torch.randn(seq_len, batch_size, input_size)
+# inputs2 = torch.randn(seq_len, batch_size, input_size)
+# h0 = torch.zeros(num_layers, batch_size, hidden_size)
+# out,hidden = model.forward(inputs1,h0)
+# out,hidden = model.forward(inputs2,h0)
+# #out 的维度为 (batch)
+# print("Output size:", out.shape)
+# print("Output:", out)
+# print("Hidden size:",hidden.shape)
+# print("Hidden:",hidden)
 #训练流程
