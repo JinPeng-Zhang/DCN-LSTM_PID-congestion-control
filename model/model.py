@@ -20,7 +20,6 @@ num_layers = 2 #隐藏层层数
 class model_srn(nn.Module):
     def __init__(self):
         super(model_srn, self).__init__()
-        self.mem = [0,0,0]
         self.cell = torch.nn.RNN(input_size, hidden_size, num_layers=num_layers, bias=True)
         self.linear = nn.Linear(in_features=3, out_features=1)
     def forward(self,x,h0):
@@ -28,29 +27,30 @@ class model_srn(nn.Module):
         out = torch.reshape(out, (3, -1))
         out = out.T
         out = self.linear(out)
+        print(out.shape)
         out = torch.tanh(out)
         return out,hidden
-class model_dip(nn.Module):
+class model_pid(nn.Module):
     def __init__(self,lens):
-        super(model_dip, self).__init__()
+        super(model_pid, self).__init__()
         self.p = p_cell()
         self.i = i_cell(lens)
         self.d = d_cell()
+        self.bias = nn.Parameter(torch.randn(batch_size, hidden_size))
         self.linear = nn.Linear(in_features=3, out_features=1)
     def forward(self,x):
         outp = torch.as_tensor(self.p.forward(x))
-        outi = torch.as_tensor(self.i.forward(x))
+        outi,clear = self.i.forward(x)
+        outi = torch.as_tensor(outi)
         outd=  torch.as_tensor(self.d.forward(x))
         out = torch.cat([outp,outi,outd],1)
-        print("out:")
-        print(out.shape)
-        out = self .linear(out)
-        return out
+        #out = self .linear(out)
+        return torch.sum(out,axis=1,keepdim=True)+self.bias,clear
 class model_cc(nn.Module):
     def __init__(self,lens):
         super(model_cc, self).__init__()
         self.rsn = model_srn()
-        self.dip = model_dip(lens)
+        self.dip = model_pid(lens)
     def forward(self,x,h0):
         out,hidden = self.rsn.forward(x,h0)
         return self.dip.forward(out),hidden
@@ -58,36 +58,33 @@ class p_cell(nn.Module):
     def __init__(self):
         super(p_cell,self).__init__()
         self.weight = nn.Parameter(torch.randn(1,1))
-        self.bias = nn.Parameter(torch.randn(1,1))
     def forward(self,inputs):
-        return self.weight*inputs+self.bias
+        return self.weight*inputs
 class i_cell(nn.Module):
     def __init__(self,lens):
         super(i_cell,self).__init__()
         self.weight = nn.Parameter(torch.randn(1,1))
-        self.bias = nn.Parameter(torch.randn(1,1))
-        self.sum = torch.zeros(hidden_size,batch_size)
+        self.sum = torch.zeros(batch_size,hidden_size)
         self.len = 0
         self.lens = lens
     def forward(self, inputs):
         self.len = self.len+1
         if self.len>self.lens:
             self.len = 0
-            self.sum = torch.zeros(hidden_size, batch_size)
-        out = self.weight * (inputs + self.sum) + self.bias
+            self.sum = torch.zeros(batch_size,hidden_size)
+        out = self.weight * (inputs + self.sum)
         self.sum = self.sum+inputs
         return out,not self.len
 class d_cell(nn.Module):
     def __init__(self):
         super(d_cell,self).__init__()
         self.weight = nn.Parameter(torch.randn(1,1))
-        self.bias = nn.Parameter(torch.randn(1,1))
         self.old = 0
     def forward(self, inputs):
-        out = self.weight * (inputs-self.old) + self.bias
+        out = self.weight * (inputs-self.old)
         self.old = inputs
         return out
-# model = model_cc()
+# model = model_srn()
 # #优化器
 # print(model)
 # optimizer = optim.Adam(model.parameters(),lr=1e-3)
