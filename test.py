@@ -4,14 +4,15 @@
 from  model.model import i_cell
 import torch
 from torch import nn
+import numpy
 p = i_cell(10)
 from torch import optim
-
+import matplotlib.pyplot as plt
 optimizer = optim.Adam(p.parameters(),lr=1e-3)
 loss_fn = nn.MSELoss()
-EPOCH = 5
+EPOCH = 1
 y = torch.zeros(1,5)
-
+los = []
 for epoch in range(EPOCH):
     for step in range(5000):
         flag = 0
@@ -30,7 +31,7 @@ for epoch in range(EPOCH):
         optimizer.zero_grad()  # 在下一次求导之前将保留的grad清空
         loss.backward()  # 反向传播，计算梯度
         optimizer.step()  # 应用求导到优化器上去
-
+        los.append(loss.detach().numpy())
         if step % 500 == 0:#表示已经进行了50的倍数了
             # test_x = torch.randn(1,5)
             # test_y = 5*test_x
@@ -41,3 +42,5 @@ for epoch in range(EPOCH):
             print("wei,bias,h")
             print(p.weight,p.bias)
             #print('Epoch: ', epoch, '| train loss: %.4f' % loss.data.numpy(), '| test accuracy: %.2f' % accuracy)
+plt.plot(los)
+plt.show()
