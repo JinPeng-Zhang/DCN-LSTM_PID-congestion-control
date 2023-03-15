@@ -1,0 +1,18 @@
+#安装curl
+sudo apt install curl
+#安装python2
+sudo apt install python2
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 1
+安装pip2
+sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 40976EAF437D05B5 3B4FE6ACC0B21F32
+sudo add-apt-repository universe
+curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py
+sudo python2 get-pip.py
+#安装gcc4.8 g++4.8
+sudo apt-get install -y gcc-4.8
+sudo apt-get install -y g++-4.8
+cd /usr/bin
+sudo rm gcc
+sudo ln -s gcc-4.8 gcc
+sudo rm g++
+sudo ln -s g++-4.8 g++

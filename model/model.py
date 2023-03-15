@@ -5,11 +5,11 @@ import numpy as np
 from torch import optim
 import torch.nn.functional as F
 
-batch_size = 5     # 批量大小
+batch_size = 1     # 批量大小
 seq_len = 3        # 序列长度
-input_size = 2     # 特征维度
-hidden_size = 1    #隐藏层神经元个数 or 输出yi特征维度
-num_layers = 2 #隐藏层层数
+input_size = 1     # 特征维度
+hidden_size = 8    #隐藏层神经元个数 or 输出yi特征维度
+num_layers = 1 #隐藏层层数
 #RSN
 # nonlinearity：激活函数，默认为 tanh
 # bias：是否使用偏置，默认为True
@@ -27,9 +27,20 @@ class model_srn(nn.Module):
         out = torch.reshape(out, (3, -1))
         out = out.T
         out = self.linear(out)
-        print(out.shape)
+        #print(out.shape)
         out = torch.tanh(out)
         return out,hidden
+class model_srnn(nn.Module):
+    def __init__(self):
+        super(model_srnn, self).__init__()
+        self.cell = torch.nn.RNN(input_size=input_size, hidden_size=hidden_size, num_layers=num_layers, bias=True,batch_first=True)
+        self.linear = nn.Linear(in_features=hidden_size, out_features=1)
+    def forward(self,x):
+        h0 = torch.randn(num_layers, batch_size,hidden_size)
+        out, hidden = self.cell(x, h0)
+        pred = self.linear(out)
+        pred = pred[:, -1, :]
+        return pred
 class model_pid(nn.Module):
     def __init__(self,lens):
         super(model_pid, self).__init__()
@@ -74,7 +85,7 @@ class i_cell(nn.Module):
             self.sum = torch.zeros(batch_size,hidden_size)
         out = self.weight * (inputs + self.sum)
         self.sum = self.sum+inputs
-        return out,not self.len
+        return out,not self.len#clear,积分一定长度len，避免长时间累积影响
 class d_cell(nn.Module):
     def __init__(self):
         super(d_cell,self).__init__()
@@ -84,6 +95,7 @@ class d_cell(nn.Module):
         out = self.weight * (inputs-self.old)
         self.old = inputs
         return out
+
 # model = model_srn()
 # #优化器
 # print(model)
@@ -106,4 +118,3 @@ class d_cell(nn.Module):
 # print("Output:", out)
 # print("Hidden size:",hidden.shape)
 # print("Hidden:",hidden)
-#训练流程
