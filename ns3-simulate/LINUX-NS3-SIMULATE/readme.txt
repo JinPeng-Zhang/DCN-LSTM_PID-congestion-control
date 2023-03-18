@@ -1,0 +1,2 @@
+ns3仿真环境搭建在linux虚拟机上，而数据的处理即可视化在windows上（需要windows上的pytorch环境）
+因此每次需要将LINUX结果文件传入到windows上，因此创建该文件夹实现两者的文件传输

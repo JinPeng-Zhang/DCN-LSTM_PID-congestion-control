@@ -1,5 +1,6 @@
 import  matplotlib.pyplot as plt
 import  math
+import torch
 file = open("4.txt","r")
 line = file.readline()
 rtt = []
@@ -9,9 +10,9 @@ while line:
     rtt.append(int(line[0].split("[")[1]))
     # if rtt[len(rtt)-1]>10000:
     #     rtt.pop()
-    rate.append(float(line[1].split(" ")[1]))
+    rate.append(1000*float(line[1].split(" ")[1]))
     line = file.readline()
-print(sum(rtt)/len(rtt))
+print(torch.mean(torch.tensor(rate)))
 plt.plot(rtt)
-#plt.plot(rate)
+plt.plot(rate)
 plt.show()

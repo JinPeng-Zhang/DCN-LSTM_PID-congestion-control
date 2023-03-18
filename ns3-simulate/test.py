@@ -1,3 +1,9 @@
+'''
+用于处理hpcc,dctcp算法的原始数据，default:node = 20
+
+'''
+
+
 
 send_num = 0
 recv_num = 0
@@ -7,7 +13,7 @@ recv_time = []
 oldrate = []
 newrate = []
 node = []
-file = open("dctcp2.txt","r")
+file = open("dctcp.txt","r")
 line = file.readline()
 node_num = 20
 while line:

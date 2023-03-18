@@ -1,5 +1,8 @@
 
+'''
+用于处理timely算法的原始数据，default:node = 20
 
+'''
 oldrate = []
 newrate = []
 rtt = []

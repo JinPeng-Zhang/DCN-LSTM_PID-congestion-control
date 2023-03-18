@@ -1,3 +1,8 @@
+'''
+勇于尝试一些预测模型，这里面包括了seq2seq,
+'''
+
+
 import  torch
 from torch import  nn
 import matplotlib.pyplot as plt
