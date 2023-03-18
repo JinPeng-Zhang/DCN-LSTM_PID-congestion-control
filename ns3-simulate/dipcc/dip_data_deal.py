@@ -5,7 +5,7 @@
 nodes = []
 for i in range(20):
     nodes.append([])
-filed = "../LINUX-NS3-SIMULATE/dipcc3.txt"
+filed = "../LINUX-NS3-SIMULATE/dipcc4.txt"
 file = open(filed,"r")
 line = file.readline()
 while line:
@@ -20,7 +20,7 @@ while line:
     line = file.readline()
 file.close()
 for i in range(20):
-    file = open("dipcc_test2/{}.txt".format(i+2),"w")
+    file = open("dipcc_test3/{}.txt".format(i+2),"w")
     for k in range(len(nodes[i])):
         rtt,rate = nodes[i][k]
         file.write("{} {}\n".format(rtt,rate))
