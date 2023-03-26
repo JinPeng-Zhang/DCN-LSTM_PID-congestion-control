@@ -25,12 +25,14 @@ class p_cell(nn.Module):
         self.weight = nn.Parameter(torch.randn(1,1))
     def forward(self,inputs):
         return self.weight*inputs
+'''
+@VERSION1
 class i_cell(nn.Module):
     def __init__(self,lens):
         super(i_cell,self).__init__()
         self.weight = nn.Parameter(torch.randn(1,1))
         self.sum = torch.zeros(batch_size,hidden_size)
-        self.len = 0
+        self.point = 0
         self.lens = lens
     def forward(self, inputs):
         self.len = self.len+1
@@ -40,6 +42,25 @@ class i_cell(nn.Module):
         out = self.weight * (inputs + self.sum)
         self.sum = self.sum+inputs
         return out,not self.len#clear,积分一定长度len，避免长时间累积影响
+'''
+'''
+VERSION2
+'''
+class i_cell(nn.Module):
+    def __init__(self,lens):
+        super(i_cell,self).__init__()
+        self.weight = nn.Parameter(torch.randn(1,1))
+        self.sum = torch.zeros(batch_size,hidden_size)
+        self.lens = lens
+        self.point = 0
+        self.data = torch.zeros((lens,1,1))
+    def forward(self, inputs):
+        (self.data)[self.point] = inputs
+        self.sum = torch.sum(self.data)
+        self.point = (self.point+1)%self.lens
+        out = self.weight * (self.sum)
+        #(self.data)[self.point] = inputs
+        return out
 class d_cell(nn.Module):
     def __init__(self):
         super(d_cell,self).__init__()

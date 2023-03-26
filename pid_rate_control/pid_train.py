@@ -1,10 +1,5 @@
 '''
-经过dip_test.py验证，dip_rate.py中的model_pid神经网络，经过训练能够模拟出dip算法
-因此希望通过ns数据集的训练,为model_pid寻找合适的参数
+训练PID神经网络，寻找合适的参数
+输入input:(rttpre - rttnew);input_size = (1)
+输出output:▲rate;output_size = (1)
 '''
-
-
-'''
-数据集预处理，有了预测模块的过拟合经验，因此此次数据集也使用相同的采样方法进行预处理
-'''
-

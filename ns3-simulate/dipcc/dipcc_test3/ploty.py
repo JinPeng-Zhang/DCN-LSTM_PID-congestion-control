@@ -11,5 +11,5 @@ while line:
     line = file.readline()
 print(torch.mean(torch.tensor(rate)))
 plt.plot(rtt)
-plt.plot(rate)
+#plt.plot(rate)
 plt.show()
