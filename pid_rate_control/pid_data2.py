@@ -6,7 +6,7 @@
 
 '''
 数据集预处理，有了预测模块的过拟合经验，因此此次数据集也使用相同的采样方法进行预处理
-处理由TIMELY、PIDCC算法导出的raw数据
+处理由PIDCC算法导出的raw数据
 模型修改i_cell VERSION1 to VERSION2,将累计清零求和模块改成滑动求和，降低了模型复杂程度同时更适应仿真环境
 '''
 send_num = 0
@@ -17,7 +17,7 @@ oldrate = []
 newrate = []
 node = []
 
-datafile = "D:\\Graduation-Design\\ns3-simulate\\LINUX-NS3-SIMULATE\\dipcc_rateinit1.txt"
+datafile = "D:\\Graduation-Design\\ns3-simulate\\LINUX-NS3-SIMULATE\\timely-rateinit1.txt"
 # python run.py --cc hpcc --trace flow --bw 100 --topo topology --hpai 50 >> hpcc_pid1.txt
 
 file = open(datafile,"r")

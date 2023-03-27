@@ -47,7 +47,7 @@ plt.show()
 
 
 
-
+'''
 #test2 ，input x0 output 3*(x0+x1+x2)
 
 from model.pid_rate  import i_cell
@@ -84,7 +84,7 @@ plt.plot(los)
 plt.show()
 
 
-
+'''
 '''
 #test3 ，input x0 output 4(x0-x1)
 
@@ -122,10 +122,10 @@ plt.plot(los)
 plt.show()
 '''
 
-'''
+
 #test4 ，input x0 output test1+test2+test3
 
-from model.dip_rate import model_pid
+from model.pid_rate import model_pid
 import  torch
 from torch import optim,nn
 import  matplotlib.pyplot as plt
@@ -163,6 +163,5 @@ print(model.p.weight,model.i.weight,model.d.weight)
 plt.plot(los)
 plt.show()
 
-'''
 
 

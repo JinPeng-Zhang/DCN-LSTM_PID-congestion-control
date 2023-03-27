@@ -1,3 +1,10 @@
+'''
+PID1 是使用HPCC跑出来的数据
+PID2 是使用PIDCC跑出来的数据
+PID3 时使用TIMELY算法跑出来的数据
+PID2 PID设置的条件一致
+'''
+
 import matplotlib.pyplot as plt
 import  torch
 rtt = []

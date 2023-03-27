@@ -12,12 +12,12 @@ class model_pid(nn.Module):
         self.linear = nn.Linear(in_features=3, out_features=1)
     def forward(self,x):
         outp = torch.as_tensor(self.p.forward(x))
-        outi,clear = self.i.forward(x)
+        outi = self.i.forward(x)
         outi = torch.as_tensor(outi)
         outd=  torch.as_tensor(self.d.forward(x))
         out = torch.cat([outp,outi,outd],1)
         #out = self .linear(out)
-        return torch.sum(out,axis=1,keepdim=True)+self.bias,clear
+        return torch.sum(out,axis=1,keepdim=True)+self.bias
 
 class p_cell(nn.Module):
     def __init__(self):
