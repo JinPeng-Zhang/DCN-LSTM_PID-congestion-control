@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import  torch
 rtt = []
 rate = []
-file = open("pid2/2.txt","r")
+file = open("pid5/2.txt","r")
 line = file.readline()
 while line:
     rt,rateo,raten = line.split(" ")
@@ -17,5 +17,6 @@ while line:
     rate.append(float(rateo))
     line = file.readline()
 print(torch.mean(torch.tensor(rtt)))
+print(torch.mean(torch.tensor(rate)))
 plt.plot(rtt)
 plt.show()

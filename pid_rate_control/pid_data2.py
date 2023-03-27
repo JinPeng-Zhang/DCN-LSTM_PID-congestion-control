@@ -17,7 +17,7 @@ oldrate = []
 newrate = []
 node = []
 
-datafile = "D:\\Graduation-Design\\ns3-simulate\\LINUX-NS3-SIMULATE\\timely-rateinit1.txt"
+datafile = "D:\\Graduation-Design\\ns3-simulate\\LINUX-NS3-SIMULATE\\pidcc-10us.txt"
 # python run.py --cc hpcc --trace flow --bw 100 --topo topology --hpai 50 >> hpcc_pid1.txt
 
 file = open(datafile,"r")
@@ -34,7 +34,7 @@ while line:
     line = file.readline()
 
 for i in range(2,21):
-    file = open("dataset/pid2/{}.txt".format(i),"w")
+    file = open("dataset/pid4/{}.txt".format(i),"w")
     for t,rateo,raten,nod in zip(rtt,oldrate,newrate,node):
         if nod == i :
             file.write("{} {} {}".format(t,rateo,raten))
