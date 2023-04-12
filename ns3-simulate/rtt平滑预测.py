@@ -5,8 +5,8 @@ import random
 import matplotlib.pyplot as plt
 file = open("PIDNN/target5us.txt")
 line = file.readline()
-model = torch.load("PIDNN/pid_5us.pt")
-#model = models()
+#model = torch.load("PIDNN/pid_5us.pt")
+model = models()
 input = []
 ouput = []
 while line:
