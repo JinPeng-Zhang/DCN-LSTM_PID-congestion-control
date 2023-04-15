@@ -1,16 +1,20 @@
 import  matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.patches import  ConnectionPatch
+import torch
 plt.rcParams["font.sans-serif"]=["SimHei"]
-file = open("2.txt","r")
-line = file.readline()
 rtt = []
 rate = []
-while line:
-    line = line.split(",")
-    rtt.append(int(line[0].split("[")[1]))
-    rate.append(float(line[1].split(" ")[1]))
+for i in range(19):
+    file = open("{}.txt".format(i+2),"r")
     line = file.readline()
+
+    while line:
+        line = line.split(",")
+        #if float(line[0].split("[")[1])<100000:
+        rtt.append(float(line[0].split("[")[1]))
+        rate.append(float(line[1].split(" ")[1]))
+        line = file.readline()
 
 
 def zone_and_linked(ax, axins, zone_left, zone_right, x, y, linked='bottom',
@@ -59,14 +63,14 @@ def zone_and_linked(ax, axins, zone_left, zone_right, x, y, linked='bottom',
                           coordsB="data", axesA=axins, axesB=ax)
     axins.add_artist(con)
 
-
-
-fig, ax = plt.subplots(1,1,figsize=(12,7))
-ax.plot(rtt,".")
-plt.xlabel("RTT采集次数")
-plt.ylabel("RTT/us")
-axins = ax.inset_axes((0.3, 0.4, 0.3, 0.3))
-axins.plot(rtt,".")
-zone_and_linked(ax, axins, 700, 1200, np.arange(1,len(rtt)+1) ,[np.array(rtt)], 'right')
-#plt.plot(rate)
-plt.show()
+#print(rtt,rate)
+print(torch.mean(torch.tensor(rtt)),torch.mean(torch.tensor(rate)))
+# fig, ax = plt.subplots(1,1,figsize=(12,7))
+# ax.plot(rtt,".")
+# plt.xlabel("RTT采集次数")
+# plt.ylabel("RTT/us")
+# axins = ax.inset_axes((0.3, 0.4, 0.3, 0.3))
+# axins.plot(rtt,".")
+# zone_and_linked(ax, axins, 700, 1200, np.arange(1,len(rtt)+1) ,[np.array(rtt)], 'right')
+# plt.plot(rtt)
+# plt.show()
