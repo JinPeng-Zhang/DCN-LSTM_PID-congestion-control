@@ -37,9 +37,9 @@ while line:
     line = file.readline()
 rtt = list(map(lambda x: x[0]-x[1], zip(recv_time, send_time)))
 for i in range(2,21):
-    file = open("dctcp2/{}.txt".format(i),"w")
+    file = open("dctcp/{}.txt".format(i),"w")
     for t,rateo,raten,nod in zip(rtt,oldrate,newrate,node):
-        if nod == i and rateo!=raten:
+        if nod == i :
             file.write(str([t,rateo,raten]))
             file.write("\n")
     file.close()

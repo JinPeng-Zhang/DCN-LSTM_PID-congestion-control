@@ -10,6 +10,6 @@ while line:
     rate.append(float(line[1].split(" ")[1]))
     line = file.readline()
 print(torch.mean(torch.tensor(rtt)))
-#plt.plot(rtt)
-plt.plot(rate)
+plt.plot(rtt)
+#plt.plot(rate)
 plt.show()
