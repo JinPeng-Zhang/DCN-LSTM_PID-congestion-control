@@ -11,10 +11,11 @@ rate = []
 rtt = []
 while line:
     node,_,_,_,rat,rt,_,_ = line.split(" ")
-    if float(node.split(":")[1]) == 20:
-        nod.append(float(node.split(":")[1]))
-        rate.append(float(rat.split(":")[1]))
-        rtt.append(float(rt.split("t")[-1]))
+    nod.append(float(node.split(":")[1]))
+    rate.append(float(rat.split(":")[1]))
+    rtt.append(float(rt.split("t")[-1]))
     line = file.readline()
 file.close()
 print(torch.mean(torch.tensor(rtt)),torch.mean(torch.tensor(rate)))
+rtt = sorted(rtt)
+print(rtt[int(len(rtt)*0.95)])

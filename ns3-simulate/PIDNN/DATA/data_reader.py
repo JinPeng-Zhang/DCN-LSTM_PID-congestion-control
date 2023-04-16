@@ -15,11 +15,13 @@ while line:
     rtt.append(float(rt.split("t")[-1]))
     line = file.readline()
 file.close()
-for i in range(20):
-    file = open("{}.txt".format(i+2),"w")
-    for node,rat,rt in zip(nod,rate,rtt):
-        if node == i+2:
-            file.write("{} {}\n".format(rat,rt))
-    file.close()
-
-plt.show()
+rtt = sorted(rtt)
+print(rtt[int(len(rtt)*0.99)])
+# for i in range(20):
+#     file = open("{}.txt".format(i+2),"w")
+#     for node,rat,rt in zip(nod,rate,rtt):
+#         if node == i+2:
+#             file.write("{} {}\n".format(rat,rt))
+#     file.close()
+#
+# plt.show()
