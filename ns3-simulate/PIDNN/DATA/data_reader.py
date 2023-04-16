@@ -8,7 +8,9 @@ line = file.readline()
 nod = []
 rate = []
 rtt = []
+
 while line:
+
     node,_,_,_,rat,rt,_,_ = line.split(" ")
     nod.append(float(node.split(":")[1]))
     rate.append(float(rat.split(":")[1]))
