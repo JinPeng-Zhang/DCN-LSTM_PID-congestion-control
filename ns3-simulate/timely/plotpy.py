@@ -6,7 +6,7 @@ plt.rcParams["font.sans-serif"]=["SimHei"]
 rtt = []
 rate = []
 for i in range(19):
-    file = open("20.txt","r")
+    file = open("{}.txt".format(i+2),"r")
     line = file.readline()
 
     while line:

@@ -3,7 +3,7 @@ import  matplotlib
 import torch
 matplotlib.rcParams['axes.unicode_minus']=False
 plt.rcParams["font.sans-serif"]=["SimHei"]
-file = open("../../LINUX-NS3-SIMULATE/pid_rtt7us.txt")
+file = open("../../LINUX-NS3-SIMULATE/pid_rtt9us.txt")
 
 line = file.readline()
 nod = []
@@ -11,11 +11,12 @@ rate = []
 rtt = []
 while line:
     node,_,_,_,rat,rt,_,_ = line.split(" ")
-    nod.append(float(node.split(":")[1]))
-    rate.append(float(rat.split(":")[1]))
-    rtt.append(float(rt.split("t")[-1]))
+    if float(node.split(":")[1])==2:
+        nod.append(float(node.split(":")[1]))
+        rate.append(float(rat.split(":")[1]))
+        rtt.append(float(rt.split("t")[-1]))
     line = file.readline()
 file.close()
-print(torch.mean(torch.tensor(rtt)),torch.mean(torch.tensor(rate)))
+print(torch.mean(torch.tensor(rtt)),torch.mean(torch.tensor(rate)),max(rtt))
 rtt = sorted(rtt)
-print(rtt[int(len(rtt)*0.95)])
+print(rtt[int(len(rtt)*0.99)])
