@@ -1,15 +1,21 @@
 import  matplotlib.pyplot as plt
 import  torch
-file = open("2.txt","r")
-line = file.readline()
+
+
 rtt = []
 rate = []
-while line:
-    line = line.split(",")
-    rtt.append(float(line[0].split("[")[1]))
-    rate.append(float(line[1].split(" ")[1]))
-    line = file.readline()
-print(torch.mean(torch.tensor(rtt)))
-plt.plot(rtt)
-#plt.plot(rate)
-plt.show()
+for i in range(19):
+    file = open("2.txt","r")
+    for j in range(5):
+        line = file.readline()
+
+    while line:
+        line = line.split(",")
+        rtt.append(float(line[0].split("[")[1]))
+        rate.append(float(line[1].split(" ")[1]))
+        line = file.readline()
+
+
+print(torch.mean(torch.tensor(rtt))/1000,torch.mean(torch.tensor(rate)),max(rtt)/1000)
+rtt = sorted(rtt)
+print(rtt[int(len(rtt)*0.99)]/1000)

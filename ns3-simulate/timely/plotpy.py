@@ -11,9 +11,9 @@ for i in range(19):
 
     while line:
         line = line.split(",")
-        #if float(line[0].split("[")[1])<100000:
-        rtt.append(float(line[0].split("[")[1]))
-        rate.append(float(line[1].split(" ")[1]))
+        if float(line[0].split("[")[1])<110000:
+            rtt.append(float(line[0].split("[")[1]))
+            rate.append(float(line[1].split(" ")[1]))
         line = file.readline()
 
 
@@ -64,7 +64,10 @@ def zone_and_linked(ax, axins, zone_left, zone_right, x, y, linked='bottom',
     axins.add_artist(con)
 
 #print(rtt,rate)
-print(torch.mean(torch.tensor(rtt)),torch.mean(torch.tensor(rate)))
+
+print(torch.mean(torch.tensor(rtt))/1000,torch.mean(torch.tensor(rate)),max(rtt)/1000)
+rtt = sorted(rtt)
+print(rtt[int(len(rtt)*0.99)]/1000)
 # fig, ax = plt.subplots(1,1,figsize=(12,7))
 # ax.plot(rtt,".")
 # plt.xlabel("RTT采集次数")
