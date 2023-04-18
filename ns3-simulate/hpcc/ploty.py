@@ -5,7 +5,7 @@ import  torch
 rtt = []
 rate = []
 for i in range(19):
-    file = open("2.txt","r")
+    file = open("{}.txt".format(i+2),"r")
     for j in range(5):
         line = file.readline()
 
@@ -16,6 +16,12 @@ for i in range(19):
         line = file.readline()
 
 
-print(torch.mean(torch.tensor(rtt))/1000,torch.mean(torch.tensor(rate)),max(rtt)/1000)
+# print(torch.mean(torch.tensor(rtt))/1000,torch.mean(torch.tensor(rate)),max(rtt)/1000)
+# rtt = sorted(rtt)
+# print(rtt[int(len(rtt)*0.99)]/1000)
+
+print(torch.sum(torch.tensor(rtt)*torch.tensor(rtt)*torch.tensor(rate))/(1000*torch.sum(torch.tensor(rtt)*torch.tensor(rate))))
+print(torch.sum(torch.tensor(rate)*torch.tensor(rtt))/torch.sum(torch.tensor(rtt)))
+print(max(rtt)/1000)
 rtt = sorted(rtt)
 print(rtt[int(len(rtt)*0.99)]/1000)

@@ -8,7 +8,8 @@ rate = []
 for i in range(19):
     file = open("{}.txt".format(i+2),"r")
     line = file.readline()
-
+    for i in range(5):
+        line = file.readline()
     while line:
         line = line.split(",")
         if float(line[0].split("[")[1])<110000:
@@ -65,9 +66,9 @@ def zone_and_linked(ax, axins, zone_left, zone_right, x, y, linked='bottom',
 
 #print(rtt,rate)
 
-print(torch.mean(torch.tensor(rtt))/1000,torch.mean(torch.tensor(rate)),max(rtt)/1000)
-rtt = sorted(rtt)
-print(rtt[int(len(rtt)*0.99)]/1000)
+# print(torch.mean(torch.tensor(rtt))/1000,torch.mean(torch.tensor(rate)),max(rtt)/1000)
+# rtt = sorted(rtt)
+# print(rtt[int(len(rtt)*0.99)]/1000)
 # fig, ax = plt.subplots(1,1,figsize=(12,7))
 # ax.plot(rtt,".")
 # plt.xlabel("RTT采集次数")
@@ -77,3 +78,10 @@ print(rtt[int(len(rtt)*0.99)]/1000)
 # zone_and_linked(ax, axins, 700, 1200, np.arange(1,len(rtt)+1) ,[np.array(rtt)], 'right')
 # plt.plot(rtt)
 # plt.show()
+
+print(torch.mean(torch.tensor(rtt))/1000)
+print(torch.sum(torch.tensor(rtt)*torch.tensor(rtt)*torch.tensor(rate))/(1000*torch.sum(torch.tensor(rtt)*torch.tensor(rate))))
+print(torch.sum(torch.tensor(rate)*torch.tensor(rtt))/torch.sum(torch.tensor(rtt)))
+print(max(rtt)/1000)
+rtt = sorted(rtt)
+print(rtt[int(len(rtt)*0.99)]/1000)

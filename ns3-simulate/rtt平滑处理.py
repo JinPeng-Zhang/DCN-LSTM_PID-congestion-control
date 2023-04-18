@@ -2,6 +2,7 @@
 from torch import  nn,optim
 import torch
 import  matplotlib.pyplot as plt
+plt.rcParams["font.sans-serif"]=["SimHei"]
 import math
 import numpy as np
 import  random
@@ -17,7 +18,7 @@ def get_i_l(x):
 count = [0,0,0,0]
 lt = []
 for k in range(16):
-    file1 = open("hpcc/{}.txt".format(k+2))
+    file1 = open("dctcp/20.txt".format(k+2))
     line = file1.readline()
     rttl = []
     while line:
@@ -28,11 +29,16 @@ for k in range(16):
     a = 0.8###平滑值对于模型预测十分重要，经测试0.8的处理效果最好
     rtts = []
     rttlable = []
+
     for i in range(len(rttl)):
         if i == 0:
             rtts.append(rttl[i])
         else:
             rtts.append((1-a)*rttl[i]+a*rtts[i-1])
+    plt.plot(rttl,label="原始RTT")
+    plt.plot(rtts,label="平滑RTT")
+    plt.legend()
+    plt.show()
     for i in range(len(rtts)-3):
         input,output = get_i_l(i+2)
         o = abs(output)
