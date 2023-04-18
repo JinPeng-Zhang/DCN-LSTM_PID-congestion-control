@@ -25,3 +25,4 @@ print(torch.sum(torch.tensor(rate)*torch.tensor(rtt))/torch.sum(torch.tensor(rtt
 print(max(rtt)/1000)
 rtt = sorted(rtt)
 print(rtt[int(len(rtt)*0.99)]/1000)
+print(sum(rtt))

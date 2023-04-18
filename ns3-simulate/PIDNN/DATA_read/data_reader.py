@@ -13,9 +13,10 @@ rtt = []
 while line:
 
     node,_,_,_,rat,rt,_,_ = line.split(" ")
-    nod.append(float(node.split(":")[1]))
-    rate.append(float(rat.split(":")[1]))
-    rtt.append(float(rt.split("t")[-1]))
+    if float(node.split(":")[1])==2:
+        nod.append(float(node.split(":")[1]))
+        rate.append(float(rat.split(":")[1]))
+        rtt.append(float(rt.split("t")[-1]))
     line = file.readline()
 file.close()
 
