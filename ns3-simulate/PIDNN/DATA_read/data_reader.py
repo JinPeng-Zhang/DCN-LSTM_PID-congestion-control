@@ -29,3 +29,5 @@ print(torch.sum(torch.tensor(rate)*torch.tensor(rtt))/torch.sum(torch.tensor(rtt
 print(max(rtt))
 rtt = sorted(rtt)
 print(rtt[int(len(rtt)*0.99)])
+plt.plot(rate)
+plt.show()
