@@ -22,7 +22,10 @@ for i in range(19):
 
 print(torch.sum(torch.tensor(rtt)*torch.tensor(rtt)*torch.tensor(rate))/(1000*torch.sum(torch.tensor(rtt)*torch.tensor(rate))))
 print(torch.sum(torch.tensor(rate)*torch.tensor(rtt))/torch.sum(torch.tensor(rtt)))
+print(torch.mean(torch.tensor(rtt)),torch.mean(torch.tensor(rate)))
 print(max(rtt)/1000)
 rtt = sorted(rtt)
 print(rtt[int(len(rtt)*0.99)]/1000)
 print(sum(rtt))
+plt.plot(rate)
+plt.show()

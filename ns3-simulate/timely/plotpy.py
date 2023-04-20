@@ -8,7 +8,7 @@ rate = []
 for i in range(19):
     file = open("{}.txt".format(i+2),"r")
     line = file.readline()
-    for i in range(5):
+    for i in range(15):
         line = file.readline()
     while line:
         line = line.split(",")
