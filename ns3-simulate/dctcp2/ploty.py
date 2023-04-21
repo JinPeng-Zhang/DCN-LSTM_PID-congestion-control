@@ -16,7 +16,7 @@ for i in range(19):
         line = file.readline()
 
 
-# print(torch.mean(torch.tensor(rtt))/1000,torch.mean(torch.tensor(rate)),max(rtt)/1000)
+print(torch.mean(torch.tensor(rtt))/1000,torch.mean(torch.tensor(rate)),max(rtt)/1000)
 # rtt = sorted(rtt)
 # print(rtt[int(len(rtt)*0.99)]/1000)
 

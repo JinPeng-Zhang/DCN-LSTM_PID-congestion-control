@@ -18,7 +18,7 @@ while line:
 
 plt.xticks(range(0,len(siz),1),siz,rotation=90)
 plt.yticks(range(0,3),[1,10,100])
-plt.plot(FCT)
+plt.plot(FCT,label="timely")
 #plt.show()
 
 
@@ -45,7 +45,7 @@ while line:
 # plt.xlim(0,None)
 plt.ylim(0,None)
 print(siz,FCT)
-plt.plot(FCT1)
+plt.plot(FCT1,label="HPCC")
 
 
 
@@ -65,9 +65,9 @@ while line:
         siz2.append("{}M".format(round(float(size.split("\t")[0]) / 1000000)))
     FCT2.append(math.log10(float(fct_95)))
     line = file.readline()
-plt.plot(FCT2)
+plt.plot(FCT2,label="dctcp")
 
-file = open("PIDNN.txt")
+file = open("PIDNN_CH6RTT10.txt")
 line = file.readline()
 siz3 = []
 FCT3 = []
@@ -82,7 +82,7 @@ while line:
         siz3.append("{}M".format(round(float(size.split("\t")[0]) / 1000000)))
     FCT3.append(math.log10(float(fct_95)))
     line = file.readline()
-plt.plot(FCT3)
+plt.plot(FCT3,label="PIDNN+WIN")
 
 
 
@@ -101,7 +101,25 @@ while line:
         siz4.append("{}M".format(round(float(size.split("\t")[0]) / 1000000)))
     FCT4.append(math.log10(float(fct_95)))
     line = file.readline()
-plt.plot(FCT4)
+plt.plot(FCT4,label="DCQCN")
 
-
+file = open("PIDNN_CH6RTT.txt")
+line = file.readline()
+siz5 = []
+FCT5 = []
+while line:
+    print(line.split(" "))
+    _,size,fct_95,_ = line.split(" ")
+    if float(size.split("\t")[0])<1000:
+        siz5.append(int(size.split("\t")[0]))
+    elif float(size.split("\t")[0])>1000 and float(size.split("\t")[0])<1000000:
+        siz5.append("{}K".format(round(float(size.split("\t")[0])/1000)))
+    else:
+        siz5.append("{}M".format(round(float(size.split("\t")[0]) / 1000000)))
+    FCT5.append(math.log10(float(fct_95)))
+    line = file.readline()
+plt.plot(FCT5,label="PIDNN")
+plt.xlabel("size")
+plt.ylabel("FCT slowdown")
+plt.legend()
 plt.show()

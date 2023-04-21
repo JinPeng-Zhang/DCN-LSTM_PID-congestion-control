@@ -13,7 +13,7 @@ recv_time = []
 oldrate = []
 newrate = []
 node = []
-file = open("dctcp.txt","r")
+file = open("dctcp2.txt","r")
 line = file.readline()
 node_num = 20
 while line:
@@ -29,18 +29,17 @@ while line:
                 newrate.append(float(i.split(":")[1]))
             rate_num = rate_num + 1
         else:
-            print(i)
+            #print(i)
             recv_time.append(int(i.split("=node")[1]))
             node.append(int(i.split("=node")[0]))
             recv_num = recv_num + 1
     print(send_num,recv_num,rate_num)
     line = file.readline()
 rtt = list(map(lambda x: x[0]-x[1], zip(recv_time, send_time)))
-for i in range(2,21):
-    file = open("dctcp/{}.txt".format(i),"w")
-    for t,rateo,raten,nod in zip(rtt,oldrate,newrate,node):
-        if nod == i :
-            file.write(str([t,rateo,raten]))
-            file.write("\n")
-    file.close()
+file = open("dctcp/rtt.txt","w")
+
+for t,rateo,raten,nod in zip(rtt,oldrate,newrate,node):
+    file.write(str([t,rateo,raten]))
+    file.write("\n")
+file.close()
 print(rtt)

@@ -20,7 +20,7 @@ while line:
     newrate.append(float(ratenew.split(":")[1]))
     line = file.readline()
 
-for i in range(2,21):
+for i in range(2,22):
     file = open("timely/{}.txt".format(i),"w")
     for t,rateo,raten,nod,diff in zip(rtt,oldrate,newrate,node,rttdiff):
         if nod == i :
