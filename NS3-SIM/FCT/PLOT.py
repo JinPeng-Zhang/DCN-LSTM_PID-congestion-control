@@ -67,7 +67,7 @@ while line:
     line = file.readline()
 plt.plot(FCT2,label="dctcp")
 
-file = open("PIDNN_CH6RTT10.txt")
+file = open("PIDNN_WIN.txt")
 line = file.readline()
 siz3 = []
 FCT3 = []
@@ -103,7 +103,7 @@ while line:
     line = file.readline()
 plt.plot(FCT4,label="DCQCN")
 
-file = open("PIDNN_CH6RTT.txt")
+file = open("PIDNN_WIN_CHRTT.txt")
 line = file.readline()
 siz5 = []
 FCT5 = []
