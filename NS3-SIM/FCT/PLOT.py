@@ -119,6 +119,24 @@ while line:
     FCT5.append(math.log10(float(fct_95)))
     line = file.readline()
 plt.plot(FCT5,label="PIDNN+RTTch")
+
+file = open("PIDNN_4_22/PIDNN_CH6RTT5_vwin.txt")
+line = file.readline()
+siz6 = []
+FCT6 = []
+while line:
+    print(line.split(" "))
+    _,size,fct_95,_ = line.split(" ")
+    if float(size.split("\t")[0])<1000:
+        siz6.append(int(size.split("\t")[0]))
+    elif float(size.split("\t")[0])>1000 and float(size.split("\t")[0])<1000000:
+        siz6.append("{}K".format(round(float(size.split("\t")[0])/1000)))
+    else:
+        siz6.append("{}M".format(round(float(size.split("\t")[0]) / 1000000)))
+    FCT6.append(math.log10(float(fct_95)))
+    line = file.readline()
+plt.plot(FCT6,label="PIDNN+RTTch+win")
+
 plt.xlabel("size")
 plt.ylabel("FCT slowdown")
 plt.legend()
