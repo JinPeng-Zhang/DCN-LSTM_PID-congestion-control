@@ -67,7 +67,7 @@ while line:
     line = file.readline()
 plt.plot(FCT2,label="dctcp")
 
-file = open("PIDNN_WIN.txt")
+file = open("PIDNN.txt")
 line = file.readline()
 siz3 = []
 FCT3 = []
@@ -82,7 +82,7 @@ while line:
         siz3.append("{}M".format(round(float(size.split("\t")[0]) / 1000000)))
     FCT3.append(math.log10(float(fct_95)))
     line = file.readline()
-plt.plot(FCT3,label="PIDNN+WIN")
+plt.plot(FCT3,label="PIDNN")
 
 
 
@@ -103,7 +103,7 @@ while line:
     line = file.readline()
 plt.plot(FCT4,label="DCQCN")
 
-file = open("PIDNN_WIN_CHRTT.txt")
+file = open("PIDNN_4_22/PIDNN_CH6RTT5.txt")
 line = file.readline()
 siz5 = []
 FCT5 = []
@@ -118,7 +118,7 @@ while line:
         siz5.append("{}M".format(round(float(size.split("\t")[0]) / 1000000)))
     FCT5.append(math.log10(float(fct_95)))
     line = file.readline()
-plt.plot(FCT5,label="PIDNN")
+plt.plot(FCT5,label="PIDNN+RTTch")
 plt.xlabel("size")
 plt.ylabel("FCT slowdown")
 plt.legend()
