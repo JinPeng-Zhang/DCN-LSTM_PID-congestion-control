@@ -17,9 +17,9 @@ while line:
     line = file.readline()
 
 
-plt.plot(ws[0],label="kp")
-plt.plot(ws[1],label="ki")
-plt.plot(ws[2],label="kd")
+plt.plot(ws[0],label="WP")
+plt.plot(ws[1],label="WI")
+plt.plot(ws[2],label="WD")
 plt.xlabel("优化次数")
 plt.ylabel("参数大小")
 plt.legend()
