@@ -1,0 +1,3 @@
+ Simulator::Now().GetTimeStep(), dev->GetNode()->GetId(), dev->GetNode()->GetNodeType(), dev->GetIfIndex(), type
+ 
+ 时间戳，node id,设备node类型（1交换机，other终端），设备接口INDEX，PFC报文类型（1：拥赛停止发送，0：解除拥赛允许发送）

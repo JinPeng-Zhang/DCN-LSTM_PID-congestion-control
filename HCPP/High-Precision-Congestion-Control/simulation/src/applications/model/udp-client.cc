@@ -190,6 +190,7 @@ UdpClient::Send (void)
   if (next_avail < 0.000005)
   {
 	  SeqTsHeader seqTs;
+    printf("%lu\n",Simulator::Now().GetTimeStep());
 	  seqTs.SetSeq (m_sent);
 	  seqTs.SetPG (m_pg);
 	  //Ptr<Packet> p = Create<Packet> (m_size-14-10); // 14 : the size of the seqTs header, 10: the size of qbb header

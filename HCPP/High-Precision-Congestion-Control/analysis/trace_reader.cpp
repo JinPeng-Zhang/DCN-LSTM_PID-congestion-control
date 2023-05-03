@@ -11,6 +11,7 @@ using namespace ns3;
 using namespace std;
 
 int main(int argc, char** argv){
+	printf("%s\n",argv[1]);
 	if (argc != 2 && argc != 3){
 		printf("Usage: ./trace_reader <trace_file> [filter_expr]\n");
 		return 0;
@@ -27,14 +28,17 @@ int main(int argc, char** argv){
 	//printf("filter: %s\n", f.str().c_str());
 
 	// first read SimSetting
+	
 	SimSetting sim_setting;
 	sim_setting.Deserialize(file);
-	#if 0
+	
+	
+	//if 0
 	// print sim_setting
 	for (auto i : sim_setting.port_speed)
 		for (auto j : i.second)
 			printf("%u,%u:%lu\n", i.first, j.first, j.second);
-	#endif
+	//endif
 
 	// read trace
 	TraceFormat tr;
