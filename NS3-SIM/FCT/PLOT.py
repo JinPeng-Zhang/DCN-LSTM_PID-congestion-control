@@ -103,7 +103,7 @@ while line:
     line = file.readline()
 plt.plot(FCT4,label="DCQCN")
 
-file = open("PIDNN_4_22/PIDNN_CHMIN1RTT5.txt")
+file = open("PIDNN_4_22-26/PIDNN_CHMIN1RTT5.txt")
 line = file.readline()
 siz5 = []
 FCT5 = []
@@ -120,22 +120,27 @@ while line:
     line = file.readline()
 plt.plot(FCT5,label="PIDNN+RTTMIN")
 
-# file = open("PIDNN_4_22/PIDNN_CH6RTT5_vwin.txt")
-# line = file.readline()
-# siz6 = []
-# FCT6 = []
-# while line:
-#     print(line.split(" "))
-#     _,size,fct_95,_ = line.split(" ")
-#     if float(size.split("\t")[0])<1000:
-#         siz6.append(int(size.split("\t")[0]))
-#     elif float(size.split("\t")[0])>1000 and float(size.split("\t")[0])<1000000:
-#         siz6.append("{}K".format(round(float(size.split("\t")[0])/1000)))
-#     else:
-#         siz6.append("{}M".format(round(float(size.split("\t")[0]) / 1000000)))
-#     FCT6.append(math.log10(float(fct_95)))
-#     line = file.readline()
-# plt.plot(FCT6,label="PIDNN+RTTch+win")
+file = open("PIDNN_4_27/PIDNN_RTTchX0.9_1Gbps(2).txt","r",encoding='utf-8')
+line = file.readline()
+siz6 = []
+FCT6 = []
+num = 1
+while line:
+    print(line.split(" "))
+
+    _,size,fct_95,_ = line.split(" ")
+    if float(size.split("\t")[0])<1000:
+        siz6.append(int(size.split("\t")[0]))
+    elif float(size.split("\t")[0])>1000 and float(size.split("\t")[0])<1000000:
+        siz6.append("{}K".format(round(float(size.split("\t")[0])/1000)))
+    else:
+        siz6.append("{}M".format(round(float(size.split("\t")[0]) / 1000000)))
+    FCT6.append(math.log10(float(fct_95)))
+    if num==20:
+        break
+    line = file.readline()
+    num = num + 1
+plt.plot(FCT6,label="PIDNN+RTTch_new")
 
 plt.xlabel("size")
 plt.ylabel("FCT slowdown")

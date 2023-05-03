@@ -1,5 +1,5 @@
 import  torch
-file = open("../../PAPER_DATA/PIDNN/fct_target5us.txt")
+file = open("../../PAPER_DATA/PIDNN/fct_targetch.txt")
 
 line = file.readline()
 siz = []
