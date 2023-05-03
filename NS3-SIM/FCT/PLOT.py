@@ -103,7 +103,7 @@ while line:
     line = file.readline()
 plt.plot(FCT4,label="DCQCN")
 
-file = open("PIDNN_4_22-26/PIDNN_CHMIN1RTT5.txt")
+file = open("PIDNN_4_27/PIDNN_RTTchX0.9_1Gbps(3).txt")
 line = file.readline()
 siz5 = []
 FCT5 = []
@@ -120,7 +120,7 @@ while line:
     line = file.readline()
 plt.plot(FCT5,label="PIDNN+RTTMIN")
 
-file = open("PIDNN_4_27/PIDNN_RTTchX0.9_1Gbps(2).txt","r",encoding='utf-8')
+file = open("PIDNN_5_2/fast.txt","r",encoding='utf-8')
 line = file.readline()
 siz6 = []
 FCT6 = []
@@ -140,7 +140,7 @@ while line:
         break
     line = file.readline()
     num = num + 1
-plt.plot(FCT6,label="PIDNN+RTTch_new")
+plt.plot(FCT6,label="fast")
 
 plt.xlabel("size")
 plt.ylabel("FCT slowdown")
